@@ -1,6 +1,4 @@
-
 const express = require('express');
-const router = express.Router();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
@@ -49,14 +47,14 @@ app.post('/shopping-list', jsonParser, (req, res) => {
 
 app.delete('/shopping-list/:id', (req, res) => {
   ShoppingList.delete(req.params.id);
-  console.log(`Deleted shopping list item \`${req.params.id}\``);
+  console.log(`Deleted shopping list item \`${req.params.ID}\``);
   res.status(204).end();
 });
 
+app.get('/recipes', (req, res) => {
+  res.json(Recipes.get());
+});
 
-// when new recipe added, ensure has required fields. if not,
-// log error and return 400 status code with hepful message.
-// if okay, add new item, and return it with a status 201.
 app.post('/recipes', jsonParser, (req, res) => {
   // ensure `name` and `budget` are in request body
   const requiredFields = ['name', 'ingredients'];
@@ -72,14 +70,9 @@ app.post('/recipes', jsonParser, (req, res) => {
   res.status(201).json(item);
 });
 
-
-app.get('/recipes', (req, res) => {
-  res.json(Recipes.get());
-})
-
 app.delete('/recipes/:id', (req, res) => {
-  ShoppingList.delete(req.params.id);
-  console.log(`Deleted recipes list item \`${req.params.id}\``);
+  Recipes.delete(req.params.id);
+  console.log(`Deleted recipe \`${req.params.id}\``);
   res.status(204).end();
 });
 
